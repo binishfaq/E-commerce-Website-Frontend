@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+    
+    <title>EaseShop - Modern Shopping Destination</title>
+  </head>
+  <body>
+    <header class="section-navbar">
+      <section class="top_txt">
+        <div class="head container">
+          <div class="head_txt">
+            <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
+          </div>
+          <div class="sing_in_up">
+            <a href="#">Sign In</a>
+            <a href="#">Sign Up</a>
+          </div>
+        </div>
+      </section>
+      
+      <div class="container">
+        <div class="navbar-brand">
+          <a href="index.html" class="text-logo">
+            Ease<span>Shop</span>
+          </a>
+        </div>
+
+        <nav class="navbar">
+          <ul>
+            <li class="nav-item">
+              <a href="/" class="nav-link active">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="about.html" class="nav-link">About</a>
+            </li>
+            <li class="nav-item">
+              <a href="products.html" class="nav-link">Products</a>
+            </li>
+            <li class="nav-item">
+              <a href="contact.html" class="nav-link">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a href="addToCart.html" class="nav-link" id="cartValue">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>0</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section-hero">
+        <div class="container grid grid-two--cols">
+          <div class="section-hero--content">
+            <p class="hero-subheading">✨ FYP Project 2026 ✨</p>
+            <h1 class="hero-heading">
+              Welcome to <span class="text-logo">Ease<span>Shop</span></span>
+            </h1>
+            <p class="hero-para">
+              Experience seamless shopping with our modern e-commerce platform. 
+              Discover amazing products at the best prices, with fast delivery 
+              and exceptional customer service.
+            </p>
+            <div class="hero-btn">
+              <a href="#categories" class="btn">Shop by Category</a>
+            </div>
+          </div>
+          <div class="section-hero-image" data-aos="fade-up" data-aos-delay="300">
+            <figure>
+              <img src="./images/heroSection.svg" alt="EaseShop Shopping Experience" />
+            </figure>
+          </div>
+        </div>
+        <div class="custom-shape-divider-bottom-1696038172">
+          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+          </svg>
+        </div>
+      </section>
+    </main>
+
+    <section class="section-extra-product">
+      <div class="container grid grid-three--cols">
+        <div class="div-extra grid grid-two--cols" data-aos="fade-up" data-aos-delay="100">
+          <div class="extra-text">
+            <p>🔥 Limited Offer</p>
+            <h3>Get 50% Off on Laptops</h3>
+            <a href="products.html?category=electronics">Shop Now</a>
+          </div>
+          <div class="extra-img">
+            <img src="./images/laptop.png" alt="Laptop Sale" />
+          </div>
+        </div>
+
+        <div class="div-extra grid grid-two--cols" data-aos="fade-up" data-aos-delay="200">
+          <div class="extra-text">
+            <p>🎧 Special Deal</p>
+            <h3>40% Off on Speakers</h3>
+            <a href="products.html?category=electronics">Shop Now</a>
+          </div>
+          <div class="extra-img">
+            <img src="./images/headphoneEcom.png" alt="Speaker Sale" />
+          </div>
+        </div>
+
+        <div class="div-extra grid grid-two--cols" data-aos="fade-up" data-aos-delay="300">
+          <div class="extra-text">
+            <p>📱 Flash Sale</p>
+            <h3>Up to 50% Off on Mobiles</h3>
+            <a href="products.html?category=electronics">Shop Now</a>
+          </div>
+          <div class="extra-img">
+            <img src="./images/mobiles.png" alt="Mobile Sale" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-policy">
+      <div class="container grid grid-four--cols">
+        <div class="div-policy" data-aos="fade-up" data-aos-delay="100">
+          <div class="icons">
+            <i class="fa-solid fa-truck-fast"></i>
+          </div>
+          <div class="div-policy-text">
+            <p>Free Worldwide Shipping</p>
+            <p>On orders above $100</p>
+          </div>
+        </div>
+
+        <div class="div-policy" data-aos="fade-up" data-aos-delay="200">
+          <div class="icons">
+            <i class="fa-solid fa-rotate-left"></i>
+          </div>
+          <div class="div-policy-text">
+            <p>30-Day Returns</p>
+            <p>Money-back guarantee</p>
+          </div>
+        </div>
+
+        <div class="div-policy" data-aos="fade-up" data-aos-delay="300">
+          <div class="icons">
+            <i class="fa-solid fa-shield"></i>
+          </div>
+          <div class="div-policy-text">
+            <p>Secure Payments</p>
+            <p>100% protected</p>
+          </div>
+        </div>
+
+        <div class="div-policy" data-aos="fade-up" data-aos-delay="400">
+          <div class="icons">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <div class="div-policy-text">
+            <p>24/7 Support</p>
+            <p>Always here to help</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DYNAMIC CATEGORIES SECTION ========== -->
+    <section class="section-categories" id="categories">
+      <div class="container">
+        <h2 class="section-common--heading" data-aos="fade-up">Shop by Category</h2>
+        <p class="section-common--subheading" data-aos="fade-up" data-aos-delay="100">
+          Browse our wide range of products by category
+        </p>
+
+        <div class="categories-grid grid grid-four--cols" id="categoriesContainer" data-aos="fade-up" data-aos-delay="200">
+          <!-- Categories will be dynamically inserted here -->
+        </div>
+
+        <!-- View All Categories Button -->
+        <div class="view-all-container" data-aos="fade-up" data-aos-delay="300">
+          <a href="products.html" class="btn view-all-btn">
+            View All Products <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Template -->
+    <template id="categoriesTemplate">
+      <div class="category-card">
+        <div class="category-image-wrapper">
+          <img class="category-image" src="" alt="" loading="lazy" />
+          <div class="category-overlay"></div>
+        </div>
+        <div class="category-content">
+          <h3 class="category-name"></h3>
+          <p class="category-description"></p>
+          <span class="category-link">
+            Shop Now <i class="fas fa-arrow-right"></i>
+          </span>
+        </div>
+      </div>
+    </template>
+
+    <!-- Why Choose Us Section -->
+    <section class="section-why--choose">
+      <div class="container">
+        <h2 class="section-common--heading" data-aos="fade-up">Why Choose EaseShop?</h2>
+        <p class="section-common--subheading" data-aos="fade-up" data-aos-delay="100">
+          We're committed to providing the best shopping experience
+        </p>
+      </div>
+
+      <div class="container grid grid-three--cols">
+        <div class="choose-left-div text-align--right">
+          <div class="why-choose--div" data-aos="fade-right" data-aos-delay="0">
+            <p class="common-text--highlight">1</p>
+            <h3 class="section-common--title">Wide Selection</h3>
+            <p>Thousands of products across multiple categories to suit your needs.</p>
+          </div>
+
+          <div class="why-choose--div" data-aos="fade-right" data-aos-delay="100">
+            <p class="common-text--highlight">2</p>
+            <h3 class="section-common--title">Quality Assurance</h3>
+            <p>Every product is verified for quality and authenticity.</p>
+          </div>
+
+          <div class="why-choose--div" data-aos="fade-right" data-aos-delay="200">
+            <p class="common-text--highlight">3</p>
+            <h3 class="section-common--title">Best Prices</h3>
+            <p>Competitive prices and regular discounts on top brands.</p>
+          </div>
+        </div>
+
+        <div class="choose-center-div" data-aos="zoom-in" data-aos-delay="150">
+          <figure>
+            <img src="./images/ecompost.png" alt="EaseShop Features" />
+          </figure>
+        </div>
+
+        <div class="choose-right-div">
+          <div class="why-choose--div text-align--left" data-aos="fade-left" data-aos-delay="0">
+            <p class="common-text--highlight">4</p>
+            <h3 class="section-common--title">Fast Delivery</h3>
+            <p>Quick and reliable shipping to your doorstep.</p>
+          </div>
+
+          <div class="why-choose--div text-align--left" data-aos="fade-left" data-aos-delay="100">
+            <p class="common-text--highlight">5</p>
+            <h3 class="section-common--title">Easy Returns</h3>
+            <p>Hassle-free returns within 30 days of purchase.</p>
+          </div>
+
+          <div class="why-choose--div text-align--left" data-aos="fade-left" data-aos-delay="200">
+            <p class="common-text--highlight">6</p>
+            <h3 class="section-common--title">24/7 Support</h3>
+            <p>Round-the-clock customer service for all your queries.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="section-footer"></footer>
+
+    <!-- Scripts -->
+    <script type="module" src="main.js"></script>
+    <script src="footer.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+      });
+    </script>
+  </body>
+</html>

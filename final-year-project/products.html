@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+    
+    <title>EaseShop - Our Products</title>
+  </head>
+  <body>
+    <header class="section-navbar">
+      <section class="top_txt">
+        <div class="head container">
+          <div class="head_txt">
+            <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
+          </div>
+          <div class="sing_in_up">
+            <a href="#">Sign In</a>
+            <a href="#">Sign Up</a>
+          </div>
+        </div>
+      </section>
+      
+      <div class="container">
+        <div class="navbar-brand">
+          <a href="index.html" class="text-logo">
+            Ease<span>Shop</span>
+          </a>
+        </div>
+
+        <nav class="navbar">
+          <ul>
+            <li class="nav-item">
+              <a href="/" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="about.html" class="nav-link">About</a>
+            </li>
+            <li class="nav-item">
+              <a href="products.html" class="nav-link active">Products</a>
+            </li>
+            <li class="nav-item">
+              <a href="contact.html" class="nav-link">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a href="addToCart.html" class="nav-link" id="cartValue">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>0</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="section-extra-product">
+      <div class="container grid grid-three--cols">
+        <div class="div-extra grid grid-two--cols" data-aos="fade-up" data-aos-delay="100">
+          <div class="extra-text">
+            <p>🔥 Limited Offer</p>
+            <h3>Get 50% Off on Laptops</h3>
+            <a href="?category=electronics">Shop Now</a>
+          </div>
+          <div class="extra-img">
+            <img src="./images/laptop.png" alt="Laptop Sale" />
+          </div>
+        </div>
+
+        <div class="div-extra grid grid-two--cols" data-aos="fade-up" data-aos-delay="200">
+          <div class="extra-text">
+            <p>🎧 Special Deal</p>
+            <h3>40% Off on Speakers</h3>
+            <a href="?category=electronics">Shop Now</a>
+          </div>
+          <div class="extra-img">
+            <img src="./images/headphoneEcom.png" alt="Speaker Sale" />
+          </div>
+        </div>
+
+        <div class="div-extra grid grid-two--cols" data-aos="fade-up" data-aos-delay="300">
+          <div class="extra-text">
+            <p>📱 Flash Sale</p>
+            <h3>Up to 50% Off on Mobiles</h3>
+            <a href="?category=electronics">Shop Now</a>
+          </div>
+          <div class="extra-img">
+            <img src="./images/mobiles.png" alt="Mobile Sale" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-policy">
+      <div class="container grid grid-four--cols">
+        <div class="div-policy" data-aos="fade-up" data-aos-delay="100">
+          <div class="icons">
+            <i class="fa-solid fa-truck-fast"></i>
+          </div>
+          <div class="div-policy-text">
+            <p>Free Worldwide Shipping</p>
+            <p>On orders above $100</p>
+          </div>
+        </div>
+
+        <div class="div-policy" data-aos="fade-up" data-aos-delay="200">
+          <div class="icons">
+            <i class="fa-solid fa-rotate-left"></i>
+          </div>
+          <div class="div-policy-text">
+            <p>30-Day Returns</p>
+            <p>Money-back guarantee</p>
+          </div>
+        </div>
+
+        <div class="div-policy" data-aos="fade-up" data-aos-delay="300">
+          <div class="icons">
+            <i class="fa-solid fa-shield"></i>
+          </div>
+          <div class="div-policy-text">
+            <p>Secure Payments</p>
+            <p>100% protected</p>
+          </div>
+        </div>
+
+        <div class="div-policy" data-aos="fade-up" data-aos-delay="400">
+          <div class="icons">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <div class="div-policy-text">
+            <p>24/7 Support</p>
+            <p>Always here to help</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Filter Bar -->
+    <section class="category-filter-bar">
+      <div class="container">
+        <div class="filter-header">
+          <h2 class="section-common--heading" id="categoryTitle">All Products</h2>
+          <span class="product-count" id="productCount">30 Products</span>
+        </div>
+        
+        <div class="category-chips">
+          <a href="products.html" class="category-chip">All</a>
+          <a href="?category=electronics" class="category-chip">Electronics</a>
+          <a href="?category=clothing" class="category-chip">Clothing</a>
+          <a href="?category=sports" class="category-chip">Sports</a>
+          <a href="?category=home-appliances" class="category-chip">Home Appliances</a>
+          <a href="?category=books" class="category-chip">Books</a>
+          <a href="?category=beauty" class="category-chip">Beauty</a>
+          <a href="?category=toys" class="category-chip">Toys</a>
+          <a href="?category=automotive" class="category-chip">Automotive</a>
+          <a href="?category=groceries" class="category-chip">Groceries</a>
+          <a href="?category=furniture" class="category-chip">Furniture</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="section-products">
+      <div class="container">
+        <div id="productContainer" class="products-grid">
+          <!-- Products will be dynamically inserted here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Template -->
+    <template id="productTemplate">
+      <div class="cards" id="cardValue">
+        <article class="information">
+          <div class="product-badge">
+            <span class="discount-badge"></span>
+          </div>
+          <span class="category"></span>
+          <div class="imageContainer">
+            <img class="productImage" src="" alt="" loading="lazy" />
+          </div>
+          <h2 class="productName"></h2>
+          <div class="productBrand"></div>
+
+          <div class="productRating"></div>
+
+          <p class="productDescription"></p>
+
+          <div class="productPriceElement">
+            <p class="productPrice"></p>
+            <p class="productActualPrice"></p>
+          </div>
+
+          <div class="productStockElement">
+            <p class="productProperty">Stock:</p>
+            <p class="productStock"></p>
+          </div>
+
+          <div class="productQuantityElement">
+            <p class="productProperty">Quantity:</p>
+            <div class="stockElement">
+              <button class="cartIncrement">+</button>
+              <p class="productQuantity">1</p>
+              <button class="cartDecrement">-</button>
+            </div>
+          </div>
+
+          <button class="add-to-cart-button">
+            <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+          </button>
+        </article>
+      </div>
+    </template>
+
+    <!-- Footer -->
+    <footer class="section-footer"></footer>
+
+    <!-- Scripts -->
+    <script type="module" src="products.js"></script>
+    <script src="footer.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+      });
+      
+      // Highlight active category chip
+      document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        
+        document.querySelectorAll('.category-chip').forEach(chip => {
+          chip.classList.remove('active');
+          
+          if (!category && chip.getAttribute('href') === 'products.html') {
+            chip.classList.add('active');
+          } else if (category && chip.getAttribute('href') === `?category=${category}`) {
+            chip.classList.add('active');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+{
+  "categories": [
+    {
+      "id": "electronics",
+      "name": "Electronics",
+      "description": "Latest gadgets and devices",
+      "image": "https://t3.ftcdn.net/jpg/02/37/11/96/360_F_237119664_mTl1rXqLQ0V3b1UgAX5vewsT0ezEQXs2.jpg"
+    },
+    {
+      "id": "clothing",
+      "name": "Clothing",
+      "description": "Fashion for everyone",
+      "image": "https://c1.wallpaperflare.com/preview/753/976/863/apparel-clothing-fashion-hangers.jpg"
+    },
+    {
+      "id": "sports",
+      "name": "Sports & Fitness",
+      "description": "Stay active and healthy",
+      "image": "https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg"
+    },
+    {
+      "id": "home-appliances",
+      "name": "Home Appliances",
+      "description": "Make your home smart",
+      "image": "https://t3.ftcdn.net/jpg/03/65/81/02/360_F_365810231_cYeju5TPxuyYPtvbEJa9Nliv1JQJrByK.jpg"
+    },
+    {
+      "id": "books",
+      "name": "Books",
+      "description": "Knowledge at your fingertips",
+      "image": "https://images.pexels.com/photos/256450/pexels-photo-256450.jpeg"
+    },
+    {
+      "id": "beauty",
+      "name": "Beauty & Personal Care",
+      "description": "Look and feel your best",
+      "image": "https://images.pexels.com/photos/3738345/pexels-photo-3738345.jpeg"
+    },
+    {
+      "id": "toys",
+      "name": "Toys & Games",
+      "description": "Fun for all ages",
+      "image": "https://c0.wallpaperflare.com/preview/265/849/245/toys.jpg"
+    },
+    {
+      "id": "automotive",
+      "name": "Automotive",
+      "description": "Everything for your vehicle",
+      "image": "https://t3.ftcdn.net/jpg/06/42/15/52/360_F_642155259_wkEIRRSocT0VH4W8E7lneTiywgwJcvFc.jpg"
+    },
+    {
+      "id": "groceries",
+      "name": "Groceries",
+      "description": "Fresh food & essentials",
+      "image": "https://thumbs.dreamstime.com/b/grocery-shopping-cart-filled-various-food-items-supermarket-aisle-vibrant-colors-organized-shelves-modern-experience-ai-356088186.jpg"
+    },
+    {
+      "id": "furniture",
+      "name": "Furniture",
+      "description": "Comfort for your home",
+      "image": "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg"
+    }
+  ]
+}
