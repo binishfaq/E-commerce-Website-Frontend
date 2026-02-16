@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <title>EaseShop - Login</title>
+</head>
+<body>
+  <header class="section-navbar">
+    <section class="top_txt">
+      <div class="head container">
+        <div class="head_txt">
+          <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
+        </div>
+        <div class="sing_in_up">
+          <a href="login.html" class="active">SIGN IN</a>
+          <a href="signup.html">SIGN UP</a>
+        </div>
+      </div>
+    </section>
+    
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="index.html" class="text-logo">Ease<span>Shop</span></a>
+      </div>
+      <nav class="navbar">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="addToCart.html" id="cartValue"><i class="fa-solid fa-cart-shopping"></i> <span>0</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="auth-section">
+    <div class="container">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-header">
+            <h2>Welcome Back!</h2>
+            <p>Sign in to your EaseShop account</p>
+          </div>
+
+          <form id="loginForm" class="auth-form">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+            </div>
+
+            <div class="form-options">
+              <div class="form-checkbox">
+                <input type="checkbox" id="remember">
+                <label for="remember">Remember me</label>
+              </div>
+              <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="auth-btn" id="loginBtn">
+              <span>Sign In</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+
+            <div class="auth-footer">
+              <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+            </div>
+          </form>
+
+          <div id="loginMessage" class="auth-message"></div>
+
+          <!-- Add this after the auth-footer div -->
+<div class="social-login">
+  <div class="social-divider">
+    <span>Or continue with</span>
+  </div>
+  
+  <div class="social-buttons">
+    <button class="social-btn google" id="googleLogin">
+      <i class="fab fa-google"></i>
+      <span>Google</span>
+    </button>
+    
+    <button class="social-btn facebook" id="facebookLogin">
+      <i class="fab fa-facebook-f"></i>
+      <span>Facebook</span>
+    </button>
+    
+    <button class="social-btn github" id="githubLogin">
+      <i class="fab fa-github"></i>
+      <span>GitHub</span>
+    </button>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="section-footer"></footer>
+  <script src="footer.js"></script>
+  <script type="module">
+    import { loginUser, isLoggedIn } from './auth.js';
+
+    // Redirect if already logged in
+    if (isLoggedIn()) {
+      window.location.href = 'profile.html';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const messageDiv = document.getElementById('loginMessage');
+
+      const result = loginUser(email, password);
+
+      if (result.success) {
+        messageDiv.innerHTML = '<div class="success-message">Login successful! Redirecting...</div>';
+        setTimeout(() => {
+          window.location.href = 'profile.html';
+        }, 1500);
+      } else {
+        messageDiv.innerHTML = `<div class="error-message">${result.message}</div>`;
+      }
+    });
+  </script>
+</body>
+</html>

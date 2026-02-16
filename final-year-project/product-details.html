@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Google Fonts - Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+  
+  <title>EaseShop - Product Details</title>
+</head>
+<body>
+  <header class="section-navbar">
+    <section class="top_txt">
+      <div class="head container">
+        <div class="head_txt">
+          <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
+        </div>
+        <div class="sing_in_up">
+          <a href="#">Sign In</a>
+          <a href="#">Sign Up</a>
+        </div>
+      </div>
+    </section>
+    
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="index.html" class="text-logo">
+          Ease<span>Shop</span>
+        </a>
+      </div>
+
+      <nav class="navbar">
+        <ul>
+          <li class="nav-item">
+            <a href="/" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="about.html" class="nav-link">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link active">Products</a>
+          </li>
+          <li class="nav-item">
+            <a href="contact.html" class="nav-link">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a href="addToCart.html" class="nav-link" id="cartValue">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span>0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Product Details Section -->
+  <section class="product-details-section">
+    <div class="container">
+      <div class="back-link">
+        <a href="products.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i> Back to Products
+        </a>
+      </div>
+
+      <!-- Product Details Container -->
+      <div id="productDetailsContainer" class="product-details-container">
+        <!-- Product details will be loaded here dynamically -->
+      </div>
+
+      <!-- ========== PRODUCT REVIEWS SECTION ========== -->
+      <div class="product-reviews-wrapper" id="reviewsWrapper">
+        <h3 class="reviews-heading"><i class="fas fa-star"></i> Customer Reviews</h3>
+        
+        <!-- Write a Review Button -->
+        <div class="write-review-container">
+          <button class="write-review-btn" id="writeReviewBtn">
+            <i class="fas fa-pencil-alt"></i> Write a Review
+          </button>
+        </div>
+
+        <!-- Write Review Form (Hidden by default) -->
+        <div class="write-review-form" id="writeReviewForm" style="display: none;">
+          <h4>Write Your Review</h4>
+          
+          <div class="rating-input">
+            <label>Your Rating *</label>
+            <div class="star-rating">
+              <i class="fa-regular fa-star" data-rating="1"></i>
+              <i class="fa-regular fa-star" data-rating="2"></i>
+              <i class="fa-regular fa-star" data-rating="3"></i>
+              <i class="fa-regular fa-star" data-rating="4"></i>
+              <i class="fa-regular fa-star" data-rating="5"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reviewTitle">Review Title</label>
+            <input type="text" id="reviewTitle" class="form-input" placeholder="Summarize your review">
+          </div>
+
+          <div class="form-group">
+            <label for="reviewContent">Your Review *</label>
+            <textarea id="reviewContent" class="form-textarea" rows="4" placeholder="What did you like or dislike about this product?"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="reviewerName">Your Name *</label>
+            <input type="text" id="reviewerName" class="form-input" value="Anonymous">
+          </div>
+
+          <div class="review-form-actions">
+            <button class="submit-review-btn" id="submitReviewBtn">Submit Review</button>
+            <button class="cancel-review-btn" id="cancelReviewBtn">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Reviews Summary -->
+        <div class="reviews-summary" id="reviewsSummary">
+          <!-- Reviews summary will be loaded here -->
+        </div>
+
+        <!-- Reviews List -->
+        <div class="reviews-list" id="reviewsList">
+          <!-- Reviews will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="section-footer"></footer>
+
+  <!-- Scripts -->
+  <script type="module" src="product-details.js"></script>
+  <script src="footer.js"></script>
+</body>
+</html>

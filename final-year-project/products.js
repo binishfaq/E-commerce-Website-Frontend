@@ -2,6 +2,7 @@
 import products from "./api/products.json";
 import { addToCart } from "./addToCart";
 import { homeQuantityToggle } from "./homeQuantityToggle";
+import { setupSearch } from "./search.js";
 
 console.log("Products.js loaded");
 console.log("Products data:", products);
@@ -34,43 +35,143 @@ const categoryNames = {
   'furniture': 'Furniture'
 };
 
-// Map old category names to new ones (if needed)
-const categoryMapping = {
-  'Computers': 'electronics',
-  'Mobiles': 'electronics',
-  'Audio': 'electronics',
-  'Wearables': 'electronics',
-  'Video': 'electronics'
-};
+// Store current products being displayed
+let currentProducts = [];
+let currentSort = 'default';
+let minPrice = 0;
+let maxPrice = Infinity;
 
 // Filter products by category
-let filteredProducts = products;
+const getProductsByCategory = () => {
+  if (selectedCategory && selectedCategory !== 'null') {
+    return products.filter(product => product.category === selectedCategory);
+  }
+  return products;
+};
 
-if (selectedCategory && selectedCategory !== 'null') {
-  filteredProducts = products.filter(product => {
-    // Check if product category matches selected category
-    // Also check mapped categories
-    const productCat = product.category.toLowerCase();
-    return productCat === selectedCategory || 
-           categoryMapping[product.category] === selectedCategory;
+// Update category title
+const updateCategoryTitle = () => {
+  if (categoryTitle) {
+    categoryTitle.textContent = selectedCategory ? 
+      (categoryNames[selectedCategory] || selectedCategory) : 
+      "All Products";
+  }
+};
+
+// Sort products function
+const sortProducts = (productsToSort, sortType) => {
+  const sorted = [...productsToSort];
+  
+  switch(sortType) {
+    case 'price-low':
+      return sorted.sort((a, b) => a.price - b.price);
+    case 'price-high':
+      return sorted.sort((a, b) => b.price - a.price);
+    case 'rating':
+      return sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    case 'name-asc':
+      return sorted.sort((a, b) => a.name.localeCompare(b.name));
+    case 'name-desc':
+      return sorted.sort((a, b) => b.name.localeCompare(a.name));
+    default:
+      return productsToSort;
+  }
+};
+
+// Filter by price
+const filterByPrice = (productsToFilter) => {
+  return productsToFilter.filter(product => 
+    product.price >= minPrice && product.price <= maxPrice
+  );
+};
+
+// Apply both sort and filter
+const applySortAndFilter = () => {
+  let products = getProductsByCategory();
+  products = filterByPrice(products);
+  products = sortProducts(products, currentSort);
+  showFilteredProducts(products);
+};
+
+// Setup sort and filter listeners
+const setupSortFilter = () => {
+  const sortSelect = document.getElementById('sortProducts');
+  const minPriceInput = document.getElementById('minPrice');
+  const maxPriceInput = document.getElementById('maxPrice');
+  const applyBtn = document.getElementById('applyPriceFilter');
+  const clearBtn = document.getElementById('clearFilter');
+  const activeFilters = document.getElementById('activeFilters');
+
+  if (sortSelect) {
+    sortSelect.addEventListener('change', (e) => {
+      currentSort = e.target.value;
+      applySortAndFilter();
+    });
+  }
+
+  if (applyBtn) {
+    applyBtn.addEventListener('click', () => {
+      minPrice = parseInt(minPriceInput.value) || 0;
+      maxPrice = parseInt(maxPriceInput.value) || Infinity;
+      applySortAndFilter();
+      updateActiveFilters();
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      minPriceInput.value = '';
+      maxPriceInput.value = '';
+      minPrice = 0;
+      maxPrice = Infinity;
+      currentSort = 'default';
+      if (sortSelect) sortSelect.value = 'default';
+      applySortAndFilter();
+      updateActiveFilters();
+    });
+  }
+};
+
+// Update active filters display
+const updateActiveFilters = () => {
+  const activeFilters = document.getElementById('activeFilters');
+  if (!activeFilters) return;
+  
+  let filters = [];
+  if (minPrice > 0) filters.push(`Min: ₹${minPrice}`);
+  if (maxPrice < Infinity) filters.push(`Max: ₹${maxPrice}`);
+  
+  if (filters.length > 0) {
+    activeFilters.innerHTML = `
+      <span class="filter-label">Active Filters:</span>
+      ${filters.map(f => `<span class="filter-tag">${f}</span>`).join('')}
+    `;
+  } else {
+    activeFilters.innerHTML = '';
+  }
+};
+
+// Make product cards clickable
+const makeProductCardsClickable = () => {
+  document.querySelectorAll('.cards').forEach(card => {
+    card.addEventListener('click', (e) => {
+      // Don't trigger if clicking on buttons or quantity controls
+      if (e.target.tagName === 'BUTTON' || e.target.closest('.stockElement')) {
+        return;
+      }
+      
+      const id = card.id.replace('card', '');
+      window.location.href = `product-details.html?id=${id}`;
+    });
   });
-  console.log(`Filtered products for ${selectedCategory}:`, filteredProducts);
-}
+};
 
-// Update category title and product count
-if (categoryTitle) {
-  categoryTitle.textContent = selectedCategory ? 
-    (categoryNames[selectedCategory] || selectedCategory) : 
-    "All Products";
-}
-
-if (productCount) {
-  productCount.textContent = `${filteredProducts.length} Product${filteredProducts.length !== 1 ? 's' : ''}`;
-}
-
-// Function to display products
-const showFilteredProducts = () => {
+// Function to display products (can accept filtered products)
+const showFilteredProducts = (productsToShow = null) => {
   console.log("showFilteredProducts called");
+  
+  // Use provided products or get by category
+  currentProducts = productsToShow || getProductsByCategory();
   
   // Check if elements exist
   if (!productContainer) {
@@ -87,8 +188,13 @@ const showFilteredProducts = () => {
   productContainer.innerHTML = '';
   console.log("Container cleared");
 
+  // Update product count
+  if (productCount) {
+    productCount.textContent = `${currentProducts.length} Product${currentProducts.length !== 1 ? 's' : ''}`;
+  }
+
   // Check if we have products
-  if (!filteredProducts || filteredProducts.length === 0) {
+  if (!currentProducts || currentProducts.length === 0) {
     console.log("No products found");
     productContainer.innerHTML = `
       <div class="no-products">
@@ -101,9 +207,9 @@ const showFilteredProducts = () => {
     return;
   }
 
-  console.log(`Rendering ${filteredProducts.length} products`);
+  console.log(`Rendering ${currentProducts.length} products`);
 
-  filteredProducts.forEach((curProd, index) => {
+  currentProducts.forEach((curProd, index) => {
     console.log(`Rendering product ${index + 1}:`, curProd.name);
     
     const { id, name, category, brand, price, originalprice, description, image, stock, rating, reviewCount } = curProd;
@@ -204,13 +310,40 @@ const showFilteredProducts = () => {
     console.log(`Product ${index + 1} appended to container`);
   });
   
+  // Make cards clickable after rendering
+  makeProductCardsClickable();
+  
   console.log("All products rendered");
 };
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   console.log("DOM loaded, calling showFilteredProducts");
+  
+  // Update category title
+  updateCategoryTitle();
+  
+  // Show initial products
   showFilteredProducts();
+  
+  // Setup sort and filter
+  setupSortFilter();
+  
+  // Setup search (only if search elements exist)
+  if (document.getElementById('searchInput')) {
+    console.log("Search elements found, setting up search");
+    setupSearch(products, (searchResults) => {
+      if (searchResults) {
+        // If search results provided, show them
+        showFilteredProducts(searchResults);
+      } else {
+        // Otherwise show category filtered products
+        applySortAndFilter();
+      }
+    });
+  } else {
+    console.log("Search elements not found - search disabled");
+  }
 });
 
 // Also call it immediately in case DOM is already loaded

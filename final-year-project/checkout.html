@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Google Fonts - Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+<!-- AOS Animation Library -->
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+  
+  <title>EaseShop - Checkout</title>
+</head>
+<body>
+  <header class="section-navbar">
+    <section class="top_txt">
+      <div class="head container">
+        <div class="head_txt">
+          <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
+        </div>
+        <div class="sing_in_up">
+          <a href="#">Sign In</a>
+          <a href="#">Sign Up</a>
+        </div>
+      </div>
+    </section>
+    
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="index.html" class="text-logo">
+          Ease<span>Shop</span>
+        </a>
+      </div>
+
+      <nav class="navbar">
+        <ul>
+          <li class="nav-item">
+            <a href="/" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="about.html" class="nav-link">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">Products</a>
+          </li>
+          <li class="nav-item">
+            <a href="contact.html" class="nav-link">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a href="addToCart.html" class="nav-link" id="cartValue">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span>0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Checkout Progress -->
+  <section class="checkout-progress">
+    <div class="container">
+      <div class="progress-steps">
+        <div class="step completed">
+          <div class="step-icon"><i class="fas fa-shopping-cart"></i></div>
+          <div class="step-label">Cart</div>
+        </div>
+        <div class="step active">
+          <div class="step-icon"><i class="fas fa-credit-card"></i></div>
+          <div class="step-label">Checkout</div>
+        </div>
+        <div class="step">
+          <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="step-label">Confirmation</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Checkout Main Section -->
+  <section class="checkout-section">
+    <div class="container">
+      <div class="checkout-grid">
+        <!-- Left Side - Forms -->
+        <div class="checkout-forms">
+          <h2 class="section-title">Checkout Information</h2>
+          
+          <!-- Contact Information -->
+          <div class="form-section">
+            <h3><i class="fas fa-user"></i> Contact Information</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" class="form-input" placeholder="John Doe" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" class="form-input" placeholder="+92 300 1234567" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping Address -->
+          <div class="form-section">
+            <h3><i class="fas fa-map-marker-alt"></i> Shipping Address</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="address">Street Address *</label>
+                <input type="text" id="address" class="form-input" placeholder="123 Main St" required>
+              </div>
+            </div>
+            <div class="form-row grid-2">
+              <div class="form-group">
+                <label for="city">City *</label>
+                <input type="text" id="city" class="form-input" placeholder="Multan" required>
+              </div>
+              <div class="form-group">
+                <label for="province">Province *</label>
+                <select id="province" class="form-select" required>
+                  <option value="">Select Province</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Sindh">Sindh</option>
+                  <option value="KPK">KPK</option>
+                  <option value="Balochistan">Balochistan</option>
+                  <option value="Gilgit-Baltistan">Gilgit-Baltistan</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row grid-2">
+              <div class="form-group">
+                <label for="postalCode">Postal Code</label>
+                <input type="text" id="postalCode" class="form-input" placeholder="60000">
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="form-section">
+            <h3><i class="fas fa-credit-card"></i> Payment Method</h3>
+            
+            <div class="payment-methods-checkout">
+              <!-- Cash on Delivery -->
+              <label class="payment-option">
+                <input type="radio" name="paymentMethod" value="cod" checked>
+                <div class="payment-card">
+                  <div class="payment-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                  </div>
+                  <div class="payment-info">
+                    <h4>Cash on Delivery</h4>
+                    <p>Pay when you receive your order</p>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Credit/Debit Card -->
+              <label class="payment-option">
+                <input type="radio" name="paymentMethod" value="card">
+                <div class="payment-card">
+                  <div class="payment-icon">
+                    <i class="fas fa-credit-card"></i>
+                  </div>
+                  <div class="payment-info">
+                    <h4>Credit / Debit Card</h4>
+                    <p>Pay securely with your card</p>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Card Payment Form (hidden by default) -->
+              <div class="card-payment-form" id="cardPaymentForm" style="display: none;">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19">
+                  </div>
+                </div>
+                <div class="form-row grid-2">
+                  <div class="form-group">
+                    <label for="expiryDate">Expiry Date</label>
+                    <input type="text" id="expiryDate" class="form-input" placeholder="MM/YY" maxlength="5">
+                  </div>
+                  <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" class="form-input" placeholder="123" maxlength="3">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="cardName">Name on Card</label>
+                    <input type="text" id="cardName" class="form-input" placeholder="John Doe">
+                  </div>
+                </div>
+                <div class="card-icons">
+                  <i class="fab fa-cc-visa"></i>
+                  <i class="fab fa-cc-mastercard"></i>
+                  <i class="fab fa-cc-amex"></i>
+                  <i class="fab fa-cc-paypal"></i>
+                </div>
+              </div>
+
+              <!-- EasyPaisa/JazzCash -->
+              <label class="payment-option">
+                <input type="radio" name="paymentMethod" value="easypaisa">
+                <div class="payment-card">
+                  <div class="payment-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                  </div>
+                  <div class="payment-info">
+                    <h4>EasyPaisa / JazzCash</h4>
+                    <p>Pay via mobile wallet</p>
+                  </div>
+                </div>
+              </label>
+
+              <!-- EasyPaisa Form (hidden by default) -->
+              <div class="easypaisa-form" id="easypaisaForm" style="display: none;">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="mobileNumber">Mobile Number</label>
+                    <input type="text" id="mobileNumber" class="form-input" placeholder="03XX XXXXXXX">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="otp">OTP Code</label>
+                    <input type="text" id="otp" class="form-input" placeholder="Enter OTP">
+                  </div>
+                </div>
+                <p class="form-note">You will receive an OTP on your mobile to confirm payment</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order Notes -->
+          <div class="form-section">
+            <h3><i class="fas fa-note-sticky"></i> Order Notes (Optional)</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <textarea id="orderNotes" class="form-textarea" rows="3" placeholder="Special instructions for delivery..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side - Order Summary -->
+        <div class="order-summary">
+          <h2 class="section-title">Your Order</h2>
+          
+          <div id="checkoutItems" class="checkout-items">
+            <!-- Cart items will be loaded here -->
+          </div>
+
+          <div class="price-breakdown">
+            <div class="price-row">
+              <span>Subtotal:</span>
+              <span class="price-value" id="checkoutSubtotal">₹0</span>
+            </div>
+            <div class="price-row">
+              <span>Shipping:</span>
+              <span class="price-value" id="shippingCost">₹100</span>
+            </div>
+            <div class="price-row">
+              <span>Tax (GST):</span>
+              <span class="price-value" id="checkoutTax">₹50</span>
+            </div>
+            <div class="price-row total">
+              <span>Total:</span>
+              <span class="price-value" id="checkoutTotal">₹0</span>
+            </div>
+          </div>
+
+          <div class="delivery-info">
+            <h4><i class="fas fa-truck"></i> Delivery Information</h4>
+            <p>Estimated Delivery: <strong>3-5 business days</strong></p>
+            <p>Free shipping on orders above ₹1000</p>
+          </div>
+
+          <div class="checkout-actions">
+            <button class="place-order-btn" id="placeOrderBtn">
+              <i class="fas fa-check-circle"></i> Place Order
+            </button>
+            <a href="addToCart.html" class="back-to-cart">
+              <i class="fas fa-arrow-left"></i> Back to Cart
+            </a>
+          </div>
+
+          <div class="secure-checkout">
+            <i class="fas fa-lock"></i>
+            <span>Secure Checkout - Your information is safe</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Order Confirmation Modal -->
+  <div id="orderModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h2>Order Placed Successfully!</h2>
+      </div>
+      <div class="modal-body">
+        <p id="orderMessage">Your order has been confirmed.</p>
+        <div class="order-details-summary">
+          <p><strong>Order Number:</strong> <span id="orderNumber">EASE-2026-0001</span></p>
+          <p><strong>Payment Method:</strong> <span id="orderPayment">Cash on Delivery</span></p>
+          <p><strong>Total Amount:</strong> <span id="orderAmount">₹0</span></p>
+          <p><strong>Delivery Address:</strong> <span id="orderAddress"></span></p>
+        </div>
+        <p class="thank-you">Thank you for shopping with EaseShop! 🎉</p>
+      </div>
+      <div class="modal-footer">
+        <a href="products.html" class="continue-btn">
+          <i class="fas fa-shopping-bag"></i> Continue Shopping
+        </a>
+        <button class="close-btn" onclick="document.getElementById('orderModal').style.display='none'">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="section-footer"></footer>
+
+  <!-- Scripts -->
+  <script type="module" src="checkout.js"></script>
+  <script src="footer.js"></script>
+</body>
+</html>
