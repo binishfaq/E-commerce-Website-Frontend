@@ -30,13 +30,17 @@
           <div class="head_txt">
             <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
           </div>
-          <div class="sing_in_up">
-            <a href="#">Sign In</a>
-            <a href="#">Sign Up</a>
+          <div class="sing_in_up" id="authButtons">
+            <a href="login.html">Sign In</a>
+            <a href="signup.html">Sign Up</a>
           </div>
+          <a href="profile.html" class="name-button" id="nameButton" style="display: none;">
+      <i class="fas fa-user-circle"></i>
+      <span id="userNameDisplay">John</span>
+    </a>
+    </div>
         </div>
       </section>
-      
       <div class="container">
         <div class="navbar-brand">
           <a href="index.html" class="text-logo">
@@ -242,6 +246,7 @@
     <footer class="section-footer"></footer>
 
     <!-- Scripts -->
+     <script type="module" src="auth-status.js"></script>
     <script type="module" src="main.js"></script>
     <script src="footer.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>

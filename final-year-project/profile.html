@@ -11,15 +11,21 @@
 <body>
   <header class="section-navbar">
     <section class="top_txt">
-      <div class="head container">
-        <div class="head_txt">
-          <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
+        <div class="head container">
+          <div class="head_txt">
+            <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
+          </div>
+          <div class="sing_in_up" id="authButtons">
+            <a href="login.html">Sign In</a>
+            <a href="signup.html">Sign Up</a>
+          </div>
+          <a href="profile.html" class="name-button" id="nameButton" style="display: none;">
+      <i class="fas fa-user-circle"></i>
+      <span id="userNameDisplay">John</span>
+    </a>
+    </div>
         </div>
-        <div class="sing_in_up" id="authLinks">
-          <!-- Will be populated by JS -->
-        </div>
-      </div>
-    </section>
+      </section>
     
     <div class="container">
       <div class="navbar-brand">
@@ -161,83 +167,72 @@
   </section>
 
   <footer class="section-footer"></footer>
+  <script type="module" src="auth-status.js"></script>
   <script src="footer.js"></script>
   <script type="module">
-    import { getCurrentUser, isLoggedIn, logout, updateUserProfile } from './auth.js';
+  import { getCurrentUser, isLoggedIn, logout, updateUserProfile } from './auth.js';
 
-    // Tab switching function - FIXED
-    window.showTab = (tabName, element) => {
-      // Remove active class from all tabs and menu items
-      document.querySelectorAll('.profile-tab').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.profile-menu-item').forEach(item => item.classList.remove('active'));
-      
-      // Add active class to selected tab
-      document.getElementById(`${tabName}-tab`).classList.add('active');
-      
-      // Add active class to clicked menu item
-      if (element) {
-        element.classList.add('active');
-      }
-    };
-
-    // Check if user is logged in
-    if (!isLoggedIn()) {
-      window.location.href = 'login.html';
-    }
-
-    // Load user data
-    const user = getCurrentUser();
+  // Tab switching function - FIXED
+  window.showTab = (tabName, element) => {
+    document.querySelectorAll('.profile-tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.profile-menu-item').forEach(item => item.classList.remove('active'));
     
-    // Update auth links
-    const authLinks = document.getElementById('authLinks');
-    if (user) {
-      authLinks.innerHTML = `
-        <span class="welcome-text">Welcome, ${user.firstName || 'User'}!</span>
-      `;
+    document.getElementById(`${tabName}-tab`).classList.add('active');
+    if (element) {
+      element.classList.add('active');
     }
+  };
 
-    // Display profile info
-    if (user) {
-      document.getElementById('profileName').textContent = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User';
-      document.getElementById('profileEmail').textContent = user.email || '';
-      
-      document.getElementById('firstName').value = user.firstName || '';
-      document.getElementById('lastName').value = user.lastName || '';
-      document.getElementById('email').value = user.email || '';
-      document.getElementById('phone').value = user.phone || '';
-      document.getElementById('address').value = user.address || '';
-      document.getElementById('city').value = user.city || '';
-      
-      document.getElementById('displayAddress').textContent = user.address || 'Not set';
-      document.getElementById('displayCity').textContent = user.city || 'Not set';
-    }
+  // Check if user is logged in
+  if (!isLoggedIn()) {
+    window.location.href = 'login.html';
+  }
 
-    // Update profile
-    document.getElementById('profileForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const result = updateUserProfile({
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        phone: document.getElementById('phone').value,
-        address: document.getElementById('address').value,
-        city: document.getElementById('city').value
-      });
+  // Load user data
+  const user = getCurrentUser();
+  
+  // Display profile info
+  if (user) {
+    document.getElementById('profileName').textContent = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User';
+    document.getElementById('profileEmail').textContent = user.email || '';
+    
+    document.getElementById('firstName').value = user.firstName || '';
+    document.getElementById('lastName').value = user.lastName || '';
+    document.getElementById('email').value = user.email || '';
+    document.getElementById('phone').value = user.phone || '';
+    document.getElementById('address').value = user.address || '';
+    document.getElementById('city').value = user.city || '';
+    
+    document.getElementById('displayAddress').textContent = user.address || 'Not set';
+    document.getElementById('displayCity').textContent = user.city || 'Not set';
+  }
 
-      const messageDiv = document.getElementById('profileMessage');
-      if (result.success) {
-        messageDiv.innerHTML = '<div class="success-message">Profile updated successfully!</div>';
-        setTimeout(() => messageDiv.innerHTML = '', 3000);
-      } else {
-        messageDiv.innerHTML = `<div class="error-message">${result.message}</div>`;
-      }
+  // Update profile
+  document.getElementById('profileForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const result = updateUserProfile({
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value,
+      phone: document.getElementById('phone').value,
+      address: document.getElementById('address').value,
+      city: document.getElementById('city').value
     });
 
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      logout();
-      window.location.href = 'index.html';
-    });
-  </script>
+    const messageDiv = document.getElementById('profileMessage');
+    if (result.success) {
+      messageDiv.innerHTML = '<div class="success-message">Profile updated successfully!</div>';
+      setTimeout(() => messageDiv.innerHTML = '', 3000);
+    } else {
+      messageDiv.innerHTML = `<div class="error-message">${result.message}</div>`;
+    }
+  });
+
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    logout();
+    window.location.href = 'index.html';
+  });
+</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 // checkout.js
 import { getCartProductFromLS } from "./getCartProducts";
 import products from "./api/products.json";
+import { isLoggedIn, updateUserProfile, getCurrentUser } from "./auth.js";
 
 // Get cart products
 let cartProducts = getCartProductFromLS();
@@ -146,6 +147,37 @@ const setupPaymentMethods = () => {
       e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 11);
     });
   }
+
+  // ===== PRE-FILL FORM WITH USER DATA IF LOGGED IN =====
+  if (isLoggedIn()) {
+    const user = getCurrentUser();
+    if (user) {
+      // Split full name from user data
+      const firstName = user.firstName || '';
+      const lastName = user.lastName || '';
+      const fullName = `${firstName} ${lastName}`.trim();
+      
+      // Pre-fill form fields
+      if (document.getElementById('fullName')) {
+        document.getElementById('fullName').value = fullName || '';
+      }
+      if (document.getElementById('email')) {
+        document.getElementById('email').value = user.email || '';
+      }
+      if (document.getElementById('phone')) {
+        document.getElementById('phone').value = user.phone || '';
+      }
+      if (document.getElementById('address')) {
+        document.getElementById('address').value = user.address || '';
+      }
+      if (document.getElementById('city')) {
+        document.getElementById('city').value = user.city || '';
+      }
+      if (document.getElementById('province')) {
+        document.getElementById('province').value = user.province || '';
+      }
+    }
+  }
 };
 
 // Validate form
@@ -232,6 +264,34 @@ const generateOrderNumber = () => {
   return `EASE-${year}-${random}`;
 };
 
+// ===== NEW FUNCTION: Save address to user profile =====
+const saveAddressToProfile = () => {
+  if (!isLoggedIn()) return false;
+  
+  const address = document.getElementById('address').value;
+  const city = document.getElementById('city').value;
+  const province = document.getElementById('province').value;
+  const phone = document.getElementById('phone').value;
+  
+  // Split full name into first and last
+  const fullName = document.getElementById('fullName').value;
+  const nameParts = fullName.split(' ');
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.slice(1).join(' ') || '';
+  
+  // Update user profile
+  const result = updateUserProfile({
+    firstName: firstName,
+    lastName: lastName,
+    phone: phone,
+    address: address,
+    city: city,
+    province: province
+  });
+  
+  return result.success;
+};
+
 // Place order
 const placeOrder = () => {
   if (!validateForm()) return;
@@ -245,11 +305,21 @@ const placeOrder = () => {
   const email = document.getElementById('email').value;
   const orderNotes = document.getElementById('orderNotes').value;
 
+  // Split full name
+  const nameParts = fullName.split(' ');
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.slice(1).join(' ') || '';
+
   // Calculate totals
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const tax = 50;
   const shipping = subtotal > 1000 ? 0 : 100;
   const total = subtotal + tax + shipping;
+
+  // ===== SAVE ADDRESS TO PROFILE IF LOGGED IN =====
+  if (isLoggedIn()) {
+    saveAddressToProfile();
+  }
 
   // Create order object
   const order = {
