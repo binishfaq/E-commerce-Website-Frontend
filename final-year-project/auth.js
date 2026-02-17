@@ -1,245 +1,204 @@
-// auth.js - Complete Authentication System using localStorage
+// auth.js – Simple localStorage-based authentication with orders
 
-// ========== USER MANAGEMENT ==========
+// User storage key
+const STORAGE_KEY = 'easeshop_users';
+const CURRENT_USER_KEY = 'easeshop_current_user';
 
-// User Database Key
-const USERS_DB = 'easeshop_users';
-const SESSION_KEY = 'easeshop_session';
+// Orders storage key
+const ORDERS_KEY = 'easeshop_orders';
 
-// Initialize users database if not exists
-const initUserDB = () => {
-  if (!localStorage.getItem(USERS_DB)) {
-    localStorage.setItem(USERS_DB, JSON.stringify([]));
+// Initialize users array if not exists
+function initUsers() {
+  if (!localStorage.getItem(STORAGE_KEY)) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
   }
-};
+}
 
-// Hash password (simple base64 encoding - for demo only)
-// In production, use proper bcrypt with backend
-const hashPassword = (password) => {
-  return btoa(password); // Simple encoding, NOT secure for production
-};
+// Get all users
+function getUsers() {
+  initUsers();
+  return JSON.parse(localStorage.getItem(STORAGE_KEY));
+}
 
-// Register new user
-export const registerUser = (userData) => {
-  initUserDB();
-  
-  const users = JSON.parse(localStorage.getItem(USERS_DB));
+// Save users
+function saveUsers(users) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+}
+
+// Get all orders
+function getAllOrders() {
+  return JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+}
+
+// ========== USER AUTHENTICATION ==========
+
+// Register a new user
+export function registerUser(userData) {
+  const users = getUsers();
   
   // Check if email already exists
   const existingUser = users.find(u => u.email === userData.email);
   if (existingUser) {
     return { success: false, message: 'Email already registered' };
   }
-  
-  // Create new user
+
+  // Create new user (include all fields)
   const newUser = {
-    id: 'user_' + Date.now(),
-    firstName: userData.firstName,
-    lastName: userData.lastName,
+    id: Date.now().toString(),
+    firstName: userData.firstName || '',
+    lastName: userData.lastName || '',
     email: userData.email,
-    password: hashPassword(userData.password),
     phone: userData.phone || '',
-    address: userData.address || '',
-    city: userData.city || '',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
+    password: userData.password, // In real app, hash this!
+    address: '',
+    city: ''
   };
-  
+
   users.push(newUser);
-  localStorage.setItem(USERS_DB, JSON.stringify(users));
+  saveUsers(users);
   
-  return { success: true, message: 'Registration successful', user: newUser };
-};
+  return { success: true, message: 'Account created successfully' };
+}
 
 // Login user
-export const loginUser = (email, password) => {
-  initUserDB();
+export function loginUser(email, password) {
+  const users = getUsers();
+  const user = users.find(u => u.email === email && u.password === password);
   
-  const users = JSON.parse(localStorage.getItem(USERS_DB));
-  const hashedPassword = hashPassword(password);
-  
-  const user = users.find(u => u.email === email && u.password === hashedPassword);
-  
-  if (!user) {
+  if (user) {
+    // Store current user (excluding password)
+    const { password, ...safeUser } = user;
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(safeUser));
+    return { success: true, message: 'Login successful', user: safeUser };
+  } else {
     return { success: false, message: 'Invalid email or password' };
   }
-  
-  // Create session (don't store password in session)
-  const sessionUser = { ...user };
-  delete sessionUser.password;
-  
-  localStorage.setItem(SESSION_KEY, JSON.stringify({
-    user: sessionUser,
-    loggedInAt: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 hours
-  }));
-  
-  return { success: true, message: 'Login successful', user: sessionUser };
-};
+}
 
-// Check if user is logged in
-export const isLoggedIn = () => {
-  const session = localStorage.getItem(SESSION_KEY);
-  if (!session) return false;
-  
-  const sessionData = JSON.parse(session);
-  const expiresAt = new Date(sessionData.expiresAt);
-  
-  if (expiresAt < new Date()) {
-    logout();
-    return false;
-  }
-  
-  return true;
-};
+// Logout
+export function logout() {
+  localStorage.removeItem(CURRENT_USER_KEY);
+}
 
 // Get current user
-export const getCurrentUser = () => {
-  if (!isLoggedIn()) return null;
-  
-  const session = JSON.parse(localStorage.getItem(SESSION_KEY));
-  return session.user;
-};
+export function getCurrentUser() {
+  const userJson = localStorage.getItem(CURRENT_USER_KEY);
+  return userJson ? JSON.parse(userJson) : null;
+}
 
-// Logout user
-export const logout = () => {
-  localStorage.removeItem(SESSION_KEY);
-  return { success: true, message: 'Logged out successfully' };
-};
+// Check if user is logged in
+export function isLoggedIn() {
+  return !!getCurrentUser();
+}
 
 // Update user profile
-export const updateUserProfile = (updatedData) => {
-  if (!isLoggedIn()) return { success: false, message: 'Not logged in' };
+export function updateUserProfile(updatedFields) {
+  const currentUser = getCurrentUser();
+  if (!currentUser) return { success: false, message: 'Not logged in' };
+
+  const users = getUsers();
+  const userIndex = users.findIndex(u => u.id === currentUser.id);
   
-  const session = JSON.parse(localStorage.getItem(SESSION_KEY));
-  const users = JSON.parse(localStorage.getItem(USERS_DB));
-  
-  const userIndex = users.findIndex(u => u.id === session.user.id);
   if (userIndex === -1) return { success: false, message: 'User not found' };
-  
-  // Update user data (keep password)
-  users[userIndex] = {
-    ...users[userIndex],
-    firstName: updatedData.firstName || users[userIndex].firstName,
-    lastName: updatedData.lastName || users[userIndex].lastName,
-    phone: updatedData.phone || users[userIndex].phone,
-    address: updatedData.address || users[userIndex].address,
-    city: updatedData.city || users[userIndex].city,
-    updatedAt: new Date().toISOString()
-  };
-  
-  localStorage.setItem(USERS_DB, JSON.stringify(users));
-  
-  // Update session
-  const updatedUser = { ...users[userIndex] };
-  delete updatedUser.password;
-  session.user = updatedUser;
-  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-  
-  return { success: true, message: 'Profile updated', user: updatedUser };
-};
+
+  // Update user data
+  const updatedUser = { ...users[userIndex], ...updatedFields };
+  users[userIndex] = updatedUser;
+  saveUsers(users);
+
+  // Update current user (exclude password)
+  const { password, ...safeUser } = updatedUser;
+  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(safeUser));
+
+  return { success: true, message: 'Profile updated' };
+}
 
 // ========== PASSWORD RESET ==========
 
-// Store reset tokens (in localStorage for demo)
-const RESET_TOKENS_KEY = 'easeshop_reset_tokens';
-
-// Request password reset
-export const requestPasswordReset = (email) => {
-  initUserDB();
-  
-  const users = JSON.parse(localStorage.getItem(USERS_DB));
+// Forgot password - generate reset token (simplified)
+export function requestPasswordReset(email) {
+  const users = getUsers();
   const user = users.find(u => u.email === email);
   
-  // Always return success to prevent email enumeration
   if (!user) {
-    return { success: true, message: 'If email exists, reset link sent' };
+    return { success: false, message: 'Email not found' };
   }
-  
-  // Generate reset token (simple for demo)
-  const resetToken = 'reset_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-  const resetTokens = JSON.parse(localStorage.getItem(RESET_TOKENS_KEY)) || {};
-  
-  resetTokens[resetToken] = {
-    userId: user.id,
-    email: user.email,
-    expiresAt: new Date(Date.now() + 15 * 60 * 1000).toISOString() // 15 minutes
-  };
-  
-  localStorage.setItem(RESET_TOKENS_KEY, JSON.stringify(resetTokens));
-  
-  // In real app, send email with reset link
-  console.log(`Reset link: http://localhost:5173/reset-password.html?token=${resetToken}`);
-  
+
+  // In a real app, send email with token. Here we return a dummy token.
+  const resetToken = btoa(email + '-' + Date.now());
+  // Store token with user? For demo, we just return it.
   return { 
     success: true, 
-    message: 'Password reset email sent',
-    debugToken: resetToken // For testing - remove in production
+    message: 'Reset link sent (demo)', 
+    debugToken: resetToken 
   };
-};
-
-// Validate reset token
-export const validateResetToken = (token) => {
-  const resetTokens = JSON.parse(localStorage.getItem(RESET_TOKENS_KEY)) || {};
-  const tokenData = resetTokens[token];
-  
-  if (!tokenData) return { valid: false };
-  
-  if (new Date(tokenData.expiresAt) < new Date()) {
-    return { valid: false, message: 'Token expired' };
-  }
-  
-  return { valid: true, userId: tokenData.userId };
-};
+}
 
 // Reset password
-export const resetPassword = (token, newPassword) => {
-  const validation = validateResetToken(token);
-  if (!validation.valid) {
-    return { success: false, message: 'Invalid or expired token' };
+export function resetPassword(token, newPassword) {
+  // In a real app, validate token. For demo, we accept any token.
+  // We'll assume token contains email after decoding.
+  try {
+    const decoded = atob(token);
+    const email = decoded.split('-')[0];
+    const users = getUsers();
+    const userIndex = users.findIndex(u => u.email === email);
+    
+    if (userIndex === -1) {
+      return { success: false, message: 'Invalid token' };
+    }
+
+    users[userIndex].password = newPassword;
+    saveUsers(users);
+    return { success: true, message: 'Password updated' };
+  } catch (e) {
+    return { success: false, message: 'Invalid token' };
   }
-  
-  const users = JSON.parse(localStorage.getItem(USERS_DB));
-  const userIndex = users.findIndex(u => u.id === validation.userId);
-  
-  if (userIndex === -1) {
-    return { success: false, message: 'User not found' };
+}
+
+// Validate reset token (for entering the reset page)
+export function validateResetToken(token) {
+  try {
+    const decoded = atob(token);
+    const email = decoded.split('-')[0];
+    const users = getUsers();
+    const user = users.find(u => u.email === email);
+    return { valid: !!user };
+  } catch {
+    return { valid: false };
   }
-  
-  // Update password
-  users[userIndex].password = hashPassword(newPassword);
-  users[userIndex].updatedAt = new Date().toISOString();
-  localStorage.setItem(USERS_DB, JSON.stringify(users));
-  
-  // Delete used token
-  const resetTokens = JSON.parse(localStorage.getItem(RESET_TOKENS_KEY)) || {};
-  delete resetTokens[token];
-  localStorage.setItem(RESET_TOKENS_KEY, JSON.stringify(resetTokens));
-  
-  return { success: true, message: 'Password reset successful' };
-};
+}
 
-// ========== SESSION MANAGEMENT ==========
+// ========== ORDERS ==========
 
-// Extend session
-export const extendSession = () => {
-  if (!isLoggedIn()) return false;
-  
-  const session = JSON.parse(localStorage.getItem(SESSION_KEY));
-  session.expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-  
-  return true;
-};
+// Save an order for the current user
+export function saveOrder(orderData) {
+  const currentUser = getCurrentUser();
+  if (!currentUser) return { success: false, message: 'Not logged in' };
 
-// Get session info
-export const getSessionInfo = () => {
-  if (!isLoggedIn()) return null;
-  
-  const session = JSON.parse(localStorage.getItem(SESSION_KEY));
-  return {
-    loggedInAt: session.loggedInAt,
-    expiresAt: session.expiresAt,
-    expiresIn: Math.floor((new Date(session.expiresAt) - new Date()) / 1000 / 60) + ' minutes'
+  const orders = getAllOrders();
+  const newOrder = {
+    id: 'ORD-' + Date.now(),
+    userId: currentUser.id,
+    date: new Date().toISOString(),
+    status: 'Processing',
+    items: orderData.items || [],
+    subtotal: orderData.subtotal || 0,
+    tax: orderData.tax || 0,
+    shipping: orderData.shipping || 0,
+    total: orderData.total || 0,
+    address: orderData.address || {},
+    paymentMethod: orderData.paymentMethod || 'Cash on Delivery'
   };
-};
+  orders.push(newOrder);
+  localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+  return { success: true, orderId: newOrder.id };
+}
+
+// Get orders for the current user
+export function getUserOrders() {
+  const currentUser = getCurrentUser();
+  if (!currentUser) return [];
+  const orders = getAllOrders();
+  return orders.filter(order => order.userId === currentUser.id).sort((a, b) => new Date(b.date) - new Date(a.date));
+}

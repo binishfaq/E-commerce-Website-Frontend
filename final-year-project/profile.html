@@ -20,13 +20,12 @@
             <a href="signup.html">Sign Up</a>
           </div>
           <a href="profile.html" class="name-button" id="nameButton" style="display: none;">
-      <i class="fas fa-user-circle"></i>
-      <span id="userNameDisplay">John</span>
-    </a>
-    </div>
+            <i class="fas fa-user-circle"></i>
+            <span id="userNameDisplay">John</span>
+          </a>
         </div>
-      </section>
-    
+    </section>
+
     <div class="container">
       <div class="navbar-brand">
         <a href="index.html" class="text-logo">Ease<span>Shop</span></a>
@@ -52,7 +51,7 @@
           </div>
           <h3 id="profileName">Loading...</h3>
           <p id="profileEmail"></p>
-          
+
           <div class="profile-menu">
             <a href="#profile" class="profile-menu-item active" onclick="showTab('profile', this)">
               <i class="fas fa-user"></i> Profile Info
@@ -166,73 +165,172 @@
     </div>
   </section>
 
-  <footer class="section-footer"></footer>
+  <footer class="section-footer">
+    <div class="copyright">
+      <p>&copy; 2026 EaseShop - FYP Project. All rights reserved. | Designed with for online shopping by Zain Bin Ishfaq</p>
+    </div>
+  </footer>
+
   <script type="module" src="auth-status.js"></script>
-  <script src="footer.js"></script>
-  <script type="module">
-  import { getCurrentUser, isLoggedIn, logout, updateUserProfile } from './auth.js';
-
-  // Tab switching function - FIXED
-  window.showTab = (tabName, element) => {
-    document.querySelectorAll('.profile-tab').forEach(tab => tab.classList.remove('active'));
-    document.querySelectorAll('.profile-menu-item').forEach(item => item.classList.remove('active'));
-    
-    document.getElementById(`${tabName}-tab`).classList.add('active');
-    if (element) {
-      element.classList.add('active');
-    }
-  };
-
-  // Check if user is logged in
-  if (!isLoggedIn()) {
-    window.location.href = 'login.html';
-  }
-
-  // Load user data
-  const user = getCurrentUser();
   
-  // Display profile info
-  if (user) {
-    document.getElementById('profileName').textContent = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User';
-    document.getElementById('profileEmail').textContent = user.email || '';
-    
-    document.getElementById('firstName').value = user.firstName || '';
-    document.getElementById('lastName').value = user.lastName || '';
-    document.getElementById('email').value = user.email || '';
-    document.getElementById('phone').value = user.phone || '';
-    document.getElementById('address').value = user.address || '';
-    document.getElementById('city').value = user.city || '';
-    
-    document.getElementById('displayAddress').textContent = user.address || 'Not set';
-    document.getElementById('displayCity').textContent = user.city || 'Not set';
-  }
+  <script type="module">
+    import { 
+      getCurrentUser, 
+      isLoggedIn, 
+      logout, 
+      updateUserProfile,
+      getUserOrders 
+    } from './auth.js';
 
-  // Update profile
-  document.getElementById('profileForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const result = updateUserProfile({
-      firstName: document.getElementById('firstName').value,
-      lastName: document.getElementById('lastName').value,
-      phone: document.getElementById('phone').value,
-      address: document.getElementById('address').value,
-      city: document.getElementById('city').value
+    // ========== TAB SWITCHING ==========
+    window.showTab = (tabName, element) => {
+      document.querySelectorAll('.profile-tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.profile-menu-item').forEach(item => item.classList.remove('active'));
+
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+      if (element) {
+        element.classList.add('active');
+      }
+
+      // If orders tab is activated, load orders
+      if (tabName === 'orders') {
+        loadOrders();
+      }
+    };
+
+    // ========== LOAD ORDERS ==========
+    function loadOrders() {
+      const ordersList = document.getElementById('ordersList');
+      if (!ordersList) return;
+
+      const orders = getUserOrders();
+      if (orders.length === 0) {
+        ordersList.innerHTML = `
+          <div class="no-orders">
+            <i class="fas fa-box-open"></i>
+            <p>No orders yet</p>
+            <a href="products.html" class="btn">Start Shopping</a>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      orders.forEach(order => {
+        const date = new Date(order.date).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        });
+
+        const itemsHtml = order.items.map(item => `
+          <div class="order-item">
+            <img src="${item.image || 'https://via.placeholder.com/50'}" alt="${item.name}" class="order-item-image">
+            <div class="order-item-details">
+              <h5>${item.name}</h5>
+              <div class="order-item-meta">
+                <span><i class="fas fa-tag"></i> ₹${item.price}</span>
+                <span><i class="fas fa-times"></i> ${item.quantity}</span>
+              </div>
+            </div>
+            <div class="order-item-total">₹${item.price * item.quantity}</div>
+          </div>
+        `).join('');
+
+        html += `
+          <div class="order-card">
+            <div class="order-header">
+              <div class="order-info">
+                <h4>Order #${order.id}</h4>
+                <div class="order-date"><i class="far fa-calendar-alt"></i> ${date}</div>
+              </div>
+              <span class="order-status ${order.status.toLowerCase()}">${order.status}</span>
+            </div>
+            <div class="order-items">
+              ${itemsHtml}
+            </div>
+            <div class="order-footer">
+              <div class="order-summary">
+                <span class="summary-row">Subtotal: ₹${order.subtotal}</span>
+                <span class="summary-row">Tax: ₹${order.tax}</span>
+                <span class="summary-row">Shipping: ₹${order.shipping}</span>
+                <span class="summary-row total">Total: ₹${order.total}</span>
+              </div>
+              <div class="order-actions">
+                <a href="track-order.html?id=${order.id}" class="track-order-btn"><i class="fas fa-truck"></i> Track</a>
+                <button class="reorder-btn" data-order='${JSON.stringify(order).replace(/'/g, "&#39;")}'><i class="fas fa-redo-alt"></i> Reorder</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      ordersList.innerHTML = html;
+
+      // Add reorder functionality (placeholder)
+      document.querySelectorAll('.reorder-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          alert('Reorder feature – add items to cart (implement your cart logic)');
+          // You can add cart logic here
+        });
+      });
+    }
+
+    // ========== AUTH CHECK & PROFILE LOAD ==========
+    if (!isLoggedIn()) {
+      window.location.href = 'login.html';
+    }
+
+    const user = getCurrentUser();
+    if (user) {
+      document.getElementById('profileName').textContent = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User';
+      document.getElementById('profileEmail').textContent = user.email || '';
+
+      document.getElementById('firstName').value = user.firstName || '';
+      document.getElementById('lastName').value = user.lastName || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('phone').value = user.phone || '';
+      document.getElementById('address').value = user.address || '';
+      document.getElementById('city').value = user.city || '';
+
+      document.getElementById('displayAddress').textContent = user.address || 'Not set';
+      document.getElementById('displayCity').textContent = user.city || 'Not set';
+    }
+
+    // ========== PROFILE UPDATE ==========
+    document.getElementById('profileForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const result = updateUserProfile({
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value
+      });
+
+      const messageDiv = document.getElementById('profileMessage');
+      if (result.success) {
+        messageDiv.innerHTML = '<div class="success-message">Profile updated successfully!</div>';
+        setTimeout(() => messageDiv.innerHTML = '', 3000);
+      } else {
+        messageDiv.innerHTML = `<div class="error-message">${result.message}</div>`;
+      }
     });
 
-    const messageDiv = document.getElementById('profileMessage');
-    if (result.success) {
-      messageDiv.innerHTML = '<div class="success-message">Profile updated successfully!</div>';
-      setTimeout(() => messageDiv.innerHTML = '', 3000);
-    } else {
-      messageDiv.innerHTML = `<div class="error-message">${result.message}</div>`;
-    }
-  });
+    // ========== LOGOUT ==========
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      logout();
+      window.location.href = 'index.html';
+    });
 
-  // Logout
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    logout();
-    window.location.href = 'index.html';
-  });
-</script>
+    // ========== PASSWORD CHANGE (placeholder) ==========
+    document.getElementById('passwordForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const msgDiv = document.getElementById('passwordMessage');
+      msgDiv.innerHTML = '<div class="success-message">Password updated (demo only).</div>';
+      setTimeout(() => msgDiv.innerHTML = '', 3000);
+    });
+  </script>
 </body>
 </html>

@@ -1,43 +1,29 @@
 // track-order.js
-// Get order number from URL or localStorage
-const urlParams = new URLSearchParams(window.location.search);
-const orderNumber = urlParams.get('order') || localStorage.getItem('trackingOrder');
+import { isLoggedIn } from './auth.js';
 
-// Clear tracking from localStorage
-if (!urlParams.get('order')) {
-  localStorage.removeItem('trackingOrder');
+// Get order number from URL
+const urlParams = new URLSearchParams(window.location.search);
+const orderNumber = urlParams.get('order');
+
+// If no order number, redirect to orders page
+if (!orderNumber) {
+  window.location.href = 'orders.html';
+  throw new Error('No order number provided');
 }
 
 // Load order details
 const loadTrackingInfo = () => {
   const container = document.getElementById('trackingContainer');
-  
-  if (!orderNumber) {
-    container.innerHTML = `
-      <div class="no-tracking">
-        <i class="fas fa-search no-tracking-icon"></i>
-        <h2>No Order to Track</h2>
-        <p>Please enter a valid order number.</p>
-        <div class="tracking-search">
-          <input type="text" id="orderSearch" class="tracking-input" placeholder="Enter Order Number">
-          <button class="tracking-btn" onclick="searchOrder()">Track</button>
-        </div>
-        <a href="orders.html" class="btn">View My Orders</a>
-      </div>
-    `;
-    return;
-  }
-
   const orders = JSON.parse(localStorage.getItem('orders')) || [];
   const order = orders.find(o => o.orderNumber === orderNumber);
 
   if (!order) {
     container.innerHTML = `
       <div class="no-tracking">
-        <i class="fas fa-exclamation-circle no-tracking-icon" style="color: #dc3545;"></i>
+        <i class="fas fa-exclamation-circle"></i>
         <h2>Order Not Found</h2>
         <p>No order found with number: ${orderNumber}</p>
-        <a href="orders.html" class="btn">View My Orders</a>
+        <a href="orders.html" class="btn">Back to Orders</a>
       </div>
     `;
     return;
@@ -145,23 +131,15 @@ const loadTrackingInfo = () => {
       </div>
 
       <div class="tracking-actions">
-        <button class="btn" onclick="window.print()">
-          <i class="fas fa-print"></i> Print Details
-        </button>
+        <a href="orders.html" class="btn">
+          <i class="fas fa-arrow-left"></i> Back to Orders
+        </a>
         <a href="products.html" class="btn btn-secondary">
           <i class="fas fa-shopping-bag"></i> Continue Shopping
         </a>
       </div>
     </div>
   `;
-};
-
-// Search order function
-window.searchOrder = () => {
-  const searchInput = document.getElementById('orderSearch');
-  if (searchInput.value) {
-    window.location.href = `track-order.html?order=${searchInput.value}`;
-  }
 };
 
 // Initialize

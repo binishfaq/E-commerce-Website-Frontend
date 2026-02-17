@@ -1,31 +1,26 @@
 // auth-status.js
-import { getCurrentUser, isLoggedIn } from './auth.js';
+import { isLoggedIn, getCurrentUser } from './auth.js';
 
-// This function runs on EVERY page
-const updateAuthStatus = () => {
+function updateAuthUI() {
   const authButtons = document.getElementById('authButtons');
   const nameButton = document.getElementById('nameButton');
-  const userNameDisplay = document.getElementById('userNameDisplay');
-  
-  if (!authButtons || !nameButton) return;
-  
+  const userNameSpan = document.getElementById('userNameDisplay');
+
+  if (!authButtons || !nameButton || !userNameSpan) return;
+
   if (isLoggedIn()) {
-    // User IS logged in - SHOW NAME BUTTON, hide Sign In/Sign Up
-    const user = getCurrentUser();
-    
     authButtons.classList.add('hidden');
     nameButton.style.display = 'inline-flex';
-    
-    // Show user's FIRST NAME on the button
-    if (userNameDisplay && user) {
-      userNameDisplay.textContent = user.firstName || 'User';
+    const user = getCurrentUser();
+    if (user) {
+      const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User';
+      userNameSpan.textContent = fullName;
     }
   } else {
-    // User is NOT logged in - show Sign In/Sign Up, hide name button
     authButtons.classList.remove('hidden');
     nameButton.style.display = 'none';
   }
-};
+}
 
-// Run when page loads
-document.addEventListener('DOMContentLoaded', updateAuthStatus);
+document.addEventListener('DOMContentLoaded', updateAuthUI);
+window.addEventListener('popstate', updateAuthUI);

@@ -47,7 +47,7 @@ const footerHTML = `
         </ul>
       </div>
 
-      <!-- Contact Section - From ZainHub -->
+      <!-- Contact Section  -->
       <div class="footer-section">
         <h4>Contact Us</h4>
         <ul class="contact-info">
@@ -84,7 +84,7 @@ const footerHTML = `
         </div>
         
         <div class="copyright">
-          <p>&copy; 2026 EaseShop - FYP Project. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--teal-bright);"></i> for online shopping</p>
+          <p>&copy; 2026 EaseShop - FYP Project. All rights reserved. | Designed  for online shopping by Zain Bin Ishfaq. <i class="fas fa-heart" style="color: var(--coral-accent);"></i></p>
         </div>
       </div>
     </div>

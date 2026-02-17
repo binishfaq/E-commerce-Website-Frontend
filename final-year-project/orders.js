@@ -101,11 +101,9 @@ const loadOrders = () => {
   container.innerHTML = ordersHTML;
 };
 
-// Track order function
+// Track order function - FIXED: pass order number in URL
 window.trackOrder = (orderNumber) => {
-  // Save current order to track
-  localStorage.setItem('trackingOrder', orderNumber);
-  window.location.href = 'track-order.html';
+  window.location.href = `track-order.html?order=${orderNumber}`;
 };
 
 // Reorder function
