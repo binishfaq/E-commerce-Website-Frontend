@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Google Fonts - Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- Custom CSS - UPDATED PATH -->
+  <link rel="stylesheet" href="src/styles/style.css" />
+  
+  <title>EaseShop - My Orders</title>
+</head>
+<body>
+  <header class="section-navbar">
+    <section class="top_txt">
+        <div class="head container">
+          <div class="head_txt">
+            <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
+          </div>
+          <div class="sing_in_up" id="authButtons">
+            <a href="login.html">Sign In</a>
+            <a href="signup.html">Sign Up</a>
+          </div>
+          <a href="profile.html" class="name-button" id="nameButton" style="display: none;">
+            <i class="fas fa-user-circle"></i>
+            <span id="userNameDisplay">John</span>
+          </a>
+        </div>
+    </section>
+    
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="index.html" class="text-logo">
+          Ease<span>Shop</span>
+        </a>
+      </div>
+
+      <nav class="navbar">
+        <ul>
+          <li class="nav-item">
+            <a href="/" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="about.html" class="nav-link">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">Products</a>
+          </li>
+          <li class="nav-item">
+            <a href="contact.html" class="nav-link">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a href="addToCart.html" class="nav-link" id="cartValue">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span>0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Orders Header -->
+  <section class="orders-header">
+    <div class="container">
+      <h1 class="page-title">My Orders</h1>
+      <p class="page-subtitle">Track and manage your orders</p>
+    </div>
+  </section>
+
+  <!-- Orders List -->
+  <section class="orders-section">
+    <div class="container">
+      <div id="ordersContainer" class="orders-container">
+        <!-- Orders will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripts - CORRECT PATHS -->
+  <script type="module" src="./src/pages/orders.js"></script>
+  <script type="module" src="./src/utils/auth-status.js"></script>
+  
+  <footer class="section-footer">
+    <div class="copyright">
+      <p>&copy; 2026 EaseShop - FYP Project. All rights reserved. | Designed with for online shopping by Zain Bin Ishfaq</p>
+    </div>
+  </footer>
+</body>
+</html>
