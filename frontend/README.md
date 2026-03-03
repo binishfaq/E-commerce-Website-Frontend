@@ -1,11 +1,16 @@
-Full stack E-commerce-website
+# EaseShop - Full Stack E-Commerce Website
 
-Use Vite.config for Run
+## 🚀 How to Run the Project
 
-For run use command 
+### Prerequisites
+- Node.js (v18 or higher)
+- XAMPP (MySQL)
+- Git
 
-cd final-year-project
+### Step 1: Clone the Repository
 
-npm run dev
+```bash
 
-copy Local host link past in google
+git clone https://github.com/binishfaq/E-commerce-Website-Frontend.git
+
+cd E-commerce-Website-Frontend
