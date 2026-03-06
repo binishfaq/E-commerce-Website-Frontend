@@ -6,7 +6,9 @@ import { testConnection } from './utils/db.js';
 // Import routes
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
-import categoryRoutes from './routes/categories.js';  // ← This is good
+import categoryRoutes from './routes/categories.js';
+import orderRoutes from './routes/orderRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 dotenv.config();
 
@@ -23,7 +25,9 @@ testConnection();
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/categories', categoryRoutes);  // ← YOU MISSED THIS LINE! Add it here
+app.use('/api/categories', categoryRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Root route
 app.get('/', (req, res) => {
@@ -33,7 +37,9 @@ app.get('/', (req, res) => {
     endpoints: {
       auth: '/api/auth',
       products: '/api/products',
-      categories: '/api/categories'  // ← Also update this to show the endpoint
+      categories: '/api/categories',
+      orders: '/api/orders',
+      admin: '/api/admin'
     }
   });
 });

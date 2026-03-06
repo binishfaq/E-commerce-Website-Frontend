@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EaseShop - Admin Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../src/styles/style.css">
+    <style>
+        /* Admin login specific styles using your theme variables */
+        body {
+            background: linear-gradient(135deg, var(--off-white), #f0f7f5);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .admin-login-container {
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .admin-login-card {
+            background: var(--glass-white);
+            backdrop-filter: var(--blur);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-deep);
+            padding: 4rem 3.5rem;
+            border: 2px solid var(--borderColor);
+            transition: var(--transition-normal);
+            animation: slideIn 0.5s ease;
+        }
+        
+        .admin-login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--soft-mint);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .admin-login-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .admin-login-header h2 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .admin-login-header p {
+            color: var(--para-color);
+            font-size: 1.6rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .admin-login-header p::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--soft-mint), var(--coral-accent));
+            border-radius: var(--radius-full);
+        }
+        
+        .admin-login-header p span {
+            color: var(--coral-accent);
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--deep-teal);
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+        }
+        
+        .form-group label i {
+            color: var(--soft-mint);
+            margin-right: 0.5rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1.4rem 1.8rem;
+            border: 2px solid var(--borderColor);
+            border-radius: var(--radius-md);
+            font-size: 1.5rem;
+            transition: var(--transition-normal);
+            background: var(--glass-white);
+            color: var(--deep-teal);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--soft-mint);
+            box-shadow: 0 0 0 5px rgba(78, 205, 196, 0.2);
+            background: white;
+            transform: scale(1.02);
+        }
+        
+        .form-control:hover {
+            border-color: var(--coral-accent);
+        }
+        
+        .form-control::placeholder {
+            color: var(--para-color);
+            opacity: 0.5;
+        }
+        
+        .admin-login-btn {
+            width: 100%;
+            padding: 1.6rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            transition: var(--transition-normal);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .admin-login-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            z-index: 1;
+        }
+        
+        .admin-login-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .admin-login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .admin-login-btn i {
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .admin-login-btn span {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .admin-login-btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        .admin-login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-link a {
+            color: var(--coral-accent);
+            font-size: 1.5rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: var(--transition-normal);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-full);
+            background: var(--glass-white);
+            backdrop-filter: var(--blur);
+        }
+        
+        .back-link a:hover {
+            color: var(--soft-mint);
+            transform: translateX(-5px);
+            background: var(--glass-mint);
+        }
+        
+        .alert {
+            padding: 1.2rem 1.8rem;
+            border-radius: var(--radius-md);
+            font-size: 1.4rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 2rem;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+        
+        .alert-success i {
+            color: #2e7d32;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #fee, #ffd1d1);
+            color: #c33;
+            border-left: 4px solid #c33;
+        }
+        
+        .alert-danger i {
+            color: #c33;
+        }
+        
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Admin badge */
+        .admin-badge {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: var(--deep-teal);
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 0.4rem 1.2rem;
+            border-radius: var(--radius-full);
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 576px) {
+            .admin-login-card {
+                padding: 3rem 2rem;
+            }
+            
+            .admin-login-header h2 {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login-container">
+        <div class="admin-login-card">
+            <div class="admin-login-header">
+                <h2>Ease<span>Shop</span></h2>
+                <p>Admin <span>Portal</span></p>
+                <div class="admin-badge">
+                    <i class="fas fa-shield-alt"></i> Secure Access
+                </div>
+            </div>
+            
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email Address
+                    </label>
+                    <input type="email" id="email" class="form-control" 
+                           placeholder="admin@easeshop.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" id="password" class="form-control" 
+                           placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" class="admin-login-btn" id="loginBtn">
+                    <span>Access Admin Panel</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+            
+            <div id="loginMessage"></div>
+            
+            <div class="back-link">
+                <a href="/">
+                    <i class="fas fa-arrow-left"></i> Back to Main Site
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/admin-auth.js"></script>
+</body>
+</html>

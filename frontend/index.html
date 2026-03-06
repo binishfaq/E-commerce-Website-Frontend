@@ -26,21 +26,28 @@
   <body>
     <header class="section-navbar">
       <section class="top_txt">
-        <div class="head container">
-          <div class="head_txt">
-            <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
-          </div>
-          <div class="sing_in_up" id="authButtons">
-            <a href="#">Admin</a>
-            <a href="login.html">Sign In</a>
-            <a href="signup.html">Sign Up</a>
-          </div>
-          <a href="profile.html" class="name-button" id="nameButton" style="display: none;">
-            <i class="fas fa-user-circle"></i>
-            <span id="userNameDisplay">John</span>
-          </a>
-        </div>
-      </section>
+  <div class="head container">
+    <div class="head_txt">
+      <p>✨ Free shipping, 30-day return or refund guarantee ✨</p>
+    </div>
+    
+    <!-- Admin Login Link - Separate from user auth -->
+    <div class="admin_login">
+      <a href="/admin/index.html" class="admin-login-btn">
+        <i class="fas fa-cog"></i> Admin
+      </a>
+    </div>
+    
+    <div class="sing_in_up" id="authButtons">
+      <a href="login.html">Sign In</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+    <a href="profile.html" class="name-button" id="nameButton" style="display: none;">
+      <i class="fas fa-user-circle"></i>
+      <span id="userNameDisplay">John</span>
+    </a>
+  </div>
+</section>
       
       <div class="container">
         <div class="navbar-brand">

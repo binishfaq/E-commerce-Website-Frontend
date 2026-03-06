@@ -1,6 +1,7 @@
 // auth.js – Backend API authentication with JWT
 
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = 'http://localhost:5000/api'; // Changed this to base API URL
+const AUTH_URL = `${API_URL}/auth`;
 
 // ========== HELPER FUNCTIONS ==========
 
@@ -25,7 +26,7 @@ export const isLoggedIn = () => {
 // Register a new user
 export async function registerUser(userData) {
   try {
-    const response = await fetch(`${API_URL}/register`, {
+    const response = await fetch(`${AUTH_URL}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -70,7 +71,7 @@ export async function registerUser(userData) {
 // Login user
 export async function loginUser(email, password) {
   try {
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch(`${AUTH_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -110,6 +111,7 @@ export async function loginUser(email, password) {
 export function logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
+  window.location.href = 'login.html';
 }
 
 // Update user profile
@@ -121,7 +123,7 @@ export async function updateUserProfile(updatedFields) {
       return { success: false, message: 'Not logged in' };
     }
 
-    const response = await fetch(`${API_URL}/profile`, {
+    const response = await fetch(`${AUTH_URL}/profile`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -140,7 +142,11 @@ export async function updateUserProfile(updatedFields) {
     }
 
     // Update stored user data
-    localStorage.setItem('user', JSON.stringify(data.user));
+    const currentUser = getCurrentUser();
+    localStorage.setItem('user', JSON.stringify({
+      ...currentUser,
+      ...data.user
+    }));
 
     return { 
       success: true, 
@@ -162,8 +168,7 @@ export async function updateUserProfile(updatedFields) {
 // Request password reset
 export async function requestPasswordReset(email) {
   try {
-    // Note: You'll need to create this endpoint on your backend
-    const response = await fetch(`${API_URL}/forgot-password`, {
+    const response = await fetch(`${AUTH_URL}/forgot-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -197,8 +202,7 @@ export async function requestPasswordReset(email) {
 // Reset password with token
 export async function resetPassword(token, newPassword) {
   try {
-    // Note: You'll need to create this endpoint on your backend
-    const response = await fetch(`${API_URL}/reset-password`, {
+    const response = await fetch(`${AUTH_URL}/reset-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -232,8 +236,7 @@ export async function resetPassword(token, newPassword) {
 // Validate reset token
 export async function validateResetToken(token) {
   try {
-    // Note: You'll need to create this endpoint on your backend
-    const response = await fetch(`${API_URL}/validate-token/${token}`);
+    const response = await fetch(`${AUTH_URL}/validate-token/${token}`);
     
     const data = await response.json();
 
@@ -259,17 +262,40 @@ export async function saveOrder(orderData) {
       return { success: false, message: 'Not logged in' };
     }
 
-    // Note: You'll need to create this endpoint on your backend
-    const response = await fetch('http://localhost:5000/api/orders', {
+    console.log('Saving order:', orderData); // Debug log
+
+    // Format the order data for your backend
+    const apiOrderData = {
+      items: orderData.items.map(item => ({
+        productId: item.productId || item.id,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      shippingAddress: orderData.shippingAddress,
+      city: orderData.city,
+      province: orderData.province,
+      postalCode: orderData.postalCode || '',
+      paymentMethod: orderData.paymentMethod,
+      subtotal: orderData.subtotal,
+      shipping: orderData.shipping,
+      tax: orderData.tax,
+      total: orderData.total,
+      notes: orderData.notes || ''
+    };
+
+    console.log('API Request:', apiOrderData); // Debug log
+
+    const response = await fetch(`${API_URL}/orders`, { // Using API_URL here
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(orderData)
+      body: JSON.stringify(apiOrderData)
     });
 
     const data = await response.json();
+    console.log('API Response:', data); // Debug log
 
     if (!response.ok) {
       return { 
@@ -280,7 +306,8 @@ export async function saveOrder(orderData) {
 
     return { 
       success: true, 
-      orderId: data.id,
+      orderId: data.id || data.orderId,
+      orderNumber: data.orderNumber,
       message: data.message || 'Order placed successfully' 
     };
 
@@ -288,7 +315,7 @@ export async function saveOrder(orderData) {
     console.error('Order error:', error);
     return { 
       success: false, 
-      message: 'Network error. Please try again.' 
+      message: error.message || 'Network error. Please try again.' 
     };
   }
 }
@@ -302,8 +329,7 @@ export async function getUserOrders() {
       return [];
     }
 
-    // Note: You'll need to create this endpoint on your backend
-    const response = await fetch('http://localhost:5000/api/orders/myorders', {
+    const response = await fetch(`${API_URL}/orders/myorders`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -331,7 +357,7 @@ export async function getOrderById(orderId) {
       return null;
     }
 
-    const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+    const response = await fetch(`${API_URL}/orders/${orderId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

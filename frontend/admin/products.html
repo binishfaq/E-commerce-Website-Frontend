@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EaseShop - Manage Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Ease<span>Shop</span></h2>
+            <p>Admin Panel</p>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-title">MAIN</div>
+            <a href="dashboard.html">
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+            </a>
+            <a href="products.html" class="active">
+                <i class="fas fa-box"></i> <span>Products</span>
+            </a>
+            <a href="orders.html">
+                <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+            </a>
+            <a href="users.html">
+                <i class="fas fa-users"></i> <span>Users</span>
+            </a>
+            
+            <div class="menu-title">SYSTEM</div>
+            <a href="#" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="page-title">
+                <h1>Products Management</h1>
+                <p>Add, edit, and manage products</p>
+            </div>
+            <div class="user-info">
+                <span id="adminEmail"></span>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+        
+        <!-- Products Header -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-box"></i> All Products</h2>
+                <button class="btn btn-success" id="addProductBtn">
+                    <i class="fas fa-plus"></i> Add New Product
+                </button>
+            </div>
+            
+            <!-- Search and Filter -->
+            <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+                <input type="text" id="searchInput" class="form-control" 
+                       placeholder="Search products..." style="max-width: 300px;">
+                <select id="categoryFilter" class="form-control" style="max-width: 200px;">
+                    <option value="">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="books">Books</option>
+                    <option value="sports">Sports</option>
+                    <option value="furniture">Furniture</option>
+                </select>
+                <button class="btn btn-primary" id="searchBtn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+            
+            <!-- Products Table -->
+            <div class="table-responsive" id="productsContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading products...</p>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div id="pagination" style="margin-top: 20px; text-align: center;"></div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Product</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                
+                <div class="form-group">
+                    <label for="productName">Product Name *</label>
+                    <input type="text" id="productName" class="form-control" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productBrand">Brand</label>
+                        <input type="text" id="productBrand" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productCategory">Category *</label>
+                        <select id="productCategory" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="books">Books</option>
+                            <option value="sports">Sports</option>
+                            <option value="furniture">Furniture</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" class="form-control" rows="3"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">Price (₹) *</label>
+                        <input type="number" id="productPrice" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productStock">Stock *</label>
+                        <input type="number" id="productStock" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productImage">Image URL</label>
+                    <input type="url" id="productImage" class="form-control" 
+                           placeholder="https://example.com/image.jpg">
+                </div>
+                
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-warning" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-success" id="saveProductBtn">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="js/products.js"></script>
+</body>
+</html>

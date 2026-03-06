@@ -32,6 +32,8 @@ const createProfileButton = (signInUpDiv) => {
   const user = getCurrentUser();
   if (!user) return;
   
+  const isAdmin = user.isAdmin || false;
+  
   const profileHTML = `
     <div class="top-bar-profile" id="topBarProfile">
       <div class="profile-top-btn" id="topBarProfileTrigger">
@@ -84,6 +86,20 @@ const createProfileButton = (signInUpDiv) => {
               <span class="item-value" id="topBarPhone">${user.phone || 'Not set'}</span>
             </div>
           </div>
+          
+          ${isAdmin ? `
+          <div class="top-bar-dropdown-item admin-item">
+            <i class="fas fa-cog" style="color: #FF6B6B;"></i>
+            <div>
+              <span class="item-label">Admin</span>
+              <span class="item-value">
+                <a href="/admin/dashboard.html" style="color: #FF6B6B; text-decoration: none; font-weight: 600;">
+                  Go to Admin Panel →
+                </a>
+              </span>
+            </div>
+          </div>
+          ` : ''}
         </div>
         
         <div class="top-bar-dropdown-footer">

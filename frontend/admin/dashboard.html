@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EaseShop - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Ease<span>Shop</span></h2>
+            <p>Admin Panel</p>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-title">MAIN</div>
+            <a href="dashboard.html" class="active">
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+            </a>
+            <a href="products.html">
+                <i class="fas fa-box"></i> <span>Products</span>
+            </a>
+            <a href="orders.html">
+                <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+            </a>
+            <a href="users.html">
+                <i class="fas fa-users"></i> <span>Users</span>
+            </a>
+            
+            <div class="menu-title">SYSTEM</div>
+            <a href="#" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="page-title">
+                <h1>Dashboard</h1>
+                <p>Welcome back, <span id="adminName">Admin</span></p>
+            </div>
+            <div class="user-info">
+                <span id="adminEmail"></span>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="stats-grid" id="statsContainer">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading statistics...</p>
+            </div>
+        </div>
+        
+        <!-- Recent Orders -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-clock"></i> Recent Orders</h2>
+                <a href="orders.html" class="btn btn-primary">View All</a>
+            </div>
+            <div class="table-responsive" id="recentOrders">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading orders...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Low Stock Alert -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> Low Stock Alert</h2>
+                <a href="products.html" class="btn btn-primary">Manage Products</a>
+            </div>
+            <div class="table-responsive" id="lowStock">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Checking stock levels...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

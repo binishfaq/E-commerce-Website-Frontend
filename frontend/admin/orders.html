@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EaseShop - Manage Orders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        .order-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .order-info-box {
+            background: var(--gray-50);
+            padding: 15px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        .order-info-box h4 {
+            color: var(--deep-teal);
+            margin-bottom: 10px;
+            font-size: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+        
+        .order-info-box p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+        
+        .order-info-box strong {
+            color: var(--text-primary);
+            width: 100px;
+            display: inline-block;
+        }
+        
+        .product-thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+        }
+        
+        .order-summary {
+            background: var(--gray-50);
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-top: 20px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        .summary-row.total {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--deep-teal);
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-badge.processing { background: #fff3cd; color: #856404; }
+        .status-badge.confirmed { background: #cce5ff; color: #004085; }
+        .status-badge.shipped { background: #d1ecf1; color: #0c5460; }
+        .status-badge.delivered { background: #d4edda; color: #155724; }
+        .status-badge.cancelled { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Ease<span>Shop</span></h2>
+            <p>Admin Panel</p>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-title">MAIN</div>
+            <a href="dashboard.html">
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+            </a>
+            <a href="products.html">
+                <i class="fas fa-box"></i> <span>Products</span>
+            </a>
+            <a href="orders.html" class="active">
+                <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+            </a>
+            <a href="users.html">
+                <i class="fas fa-users"></i> <span>Users</span>
+            </a>
+            
+            <div class="menu-title">SYSTEM</div>
+            <a href="#" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="page-title">
+                <h1>Orders Management</h1>
+                <p>View and manage customer orders</p>
+            </div>
+            <div class="user-info">
+                <span id="adminEmail"></span>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+        
+        <!-- Filters -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-filter"></i> Filter Orders</h2>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" id="searchInput" class="form-control" 
+                       placeholder="Search by order #, customer, email..." style="max-width: 300px;">
+                
+                <select id="statusFilter" class="form-control" style="max-width: 150px;">
+                    <option value="">All Status</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+                
+                <select id="dateFilter" class="form-control" style="max-width: 150px;">
+                    <option value="">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                </select>
+                
+                <button class="btn btn-primary" id="filterBtn">
+                    <i class="fas fa-search"></i> Apply Filters
+                </button>
+                
+                <button class="btn" id="resetBtn">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+            </div>
+        </div>
+        
+        <!-- Orders Summary -->
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="stat-card" style="padding: 15px;">
+                <div class="stat-info">
+                    <h3 id="totalOrders">0</h3>
+                    <p>Total Orders</p>
+                </div>
+            </div>
+            <div class="stat-card" style="padding: 15px;">
+                <div class="stat-info">
+                    <h3 id="pendingOrders">0</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+            <div class="stat-card" style="padding: 15px;">
+                <div class="stat-info">
+                    <h3 id="completedOrders">0</h3>
+                    <p>Completed</p>
+                </div>
+            </div>
+            <div class="stat-card" style="padding: 15px;">
+                <div class="stat-info">
+                    <h3 id="totalRevenue">₹0</h3>
+                    <p>Revenue</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Orders Table -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-list"></i> All Orders</h2>
+            </div>
+            
+            <div class="table-responsive" id="ordersContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading orders...</p>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div id="pagination" style="margin-top: 20px; text-align: center;"></div>
+        </div>
+    </div>
+    
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Order Details <span id="orderNumberDisplay" style="font-size: 0.9rem; color: var(--text-secondary); margin-left: 10px;"></span></h3>
+                <button class="close-btn" onclick="closeOrderModal()">&times;</button>
+            </div>
+            
+            <div id="orderDetails">
+                <!-- Order details will be loaded here -->
+            </div>
+            
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button class="btn" onclick="closeOrderModal()">Close</button>
+                <button class="btn btn-primary" onclick="printOrder()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/orders.js"></script>
+</body>
+</html>

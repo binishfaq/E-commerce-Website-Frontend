@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EaseShop - Manage Users</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Ease<span>Shop</span></h2>
+            <p>Admin Panel</p>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-title">MAIN</div>
+            <a href="dashboard.html">
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+            </a>
+            <a href="products.html">
+                <i class="fas fa-box"></i> <span>Products</span>
+            </a>
+            <a href="orders.html">
+                <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+            </a>
+            <a href="users.html" class="active">
+                <i class="fas fa-users"></i> <span>Users</span>
+            </a>
+            
+            <div class="menu-title">SYSTEM</div>
+            <a href="#" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="page-title">
+                <h1>Users Management</h1>
+                <p>Manage customer accounts</p>
+            </div>
+            <div class="user-info">
+                <span id="adminEmail"></span>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+        
+        <!-- Users Summary -->
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="stat-card" style="padding: 15px;">
+                <div class="stat-info">
+                    <h3 id="totalUsers">0</h3>
+                    <p>Total Users</p>
+                </div>
+            </div>
+            <div class="stat-card" style="padding: 15px;">
+                <div class="stat-info">
+                    <h3 id="activeUsers">0</h3>
+                    <p>Active Users</p>
+                </div>
+            </div>
+            <div class="stat-card" style="padding: 15px;">
+                <div class="stat-info">
+                    <h3 id="adminUsers">0</h3>
+                    <p>Admins</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-search"></i> Search Users</h2>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="searchInput" class="form-control" 
+                       placeholder="Search by name or email..." style="max-width: 300px;">
+                <button class="btn btn-primary" id="searchBtn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                <button class="btn" id="resetBtn">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+            </div>
+        </div>
+        
+        <!-- Users Table -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-users"></i> All Users</h2>
+            </div>
+            
+            <div class="table-responsive" id="usersContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading users...</p>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div id="pagination" style="margin-top: 20px; text-align: center;"></div>
+        </div>
+    </div>
+
+    <script type="module" src="js/users.js"></script>
+</body>
+</html>

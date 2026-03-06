@@ -1,3 +1,4 @@
+// backend/src/utils/db.js
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
@@ -66,5 +67,8 @@ export const insert = async (sql, params = []) => {
   const [result] = await pool.execute(sql, params);
   return result.insertId;
 };
+
+// Export pool as well for transactions
+export { pool };
 
 export default pool;
